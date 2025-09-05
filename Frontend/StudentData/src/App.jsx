@@ -19,7 +19,7 @@ export default function App() {
 
   const fetchStudents = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/students");
+      const res = await axios.get("https://studentdata-x121.onrender.com/api/students");
       setStudents(res.data);
     } catch (err) {
       console.error(err);
@@ -38,11 +38,11 @@ export default function App() {
     try {
       if (editingId) {
         // Update student
-        await axios.put(`http://localhost:5000/api/students/${editingId}`, formData);
+        await axios.put(`https://studentdata-x121.onrender.com/api/students/${editingId}`, formData);
         setEditingId(null);
       } else {
         // Add new student
-        await axios.post("http://localhost:5000/api/students", formData);
+        await axios.post("https://studentdata-x121.onrender.com/api/students", formData);
       }
       setFormData({ name: "", email: "", age: "", course: "", gender: "" });
       fetchStudents();
@@ -60,7 +60,7 @@ export default function App() {
   // Delete student
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/students/${id}`);
+      await axios.delete(`https://studentdata-x121.onrender.com/api/students/${id}`);
       fetchStudents();
     } catch (err) {
       console.error(err);
