@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
-
 dotenv.config();
 const app = express();
 
@@ -18,7 +17,9 @@ const studentSchema = new mongoose.Schema({
     course: String,
     gender: String,
 });
-const Student = mongoose.model("Student", studentSchema);
+
+// Prevent model overwrite error in watch mode
+const Student = mongoose.models.Student || mongoose.model("Student", studentSchema);
 
 // Routes
 app.get("/api/students", async (req, res) => {
@@ -57,14 +58,11 @@ app.delete("/api/students/:id", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-
-
-// CRUD routes (same as before)...
-
+// Start Server
 const startServer = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URI);
-        console.log("✅ Local MongoDB connected");
+        console.log("✅ MongoDB connected");
 
         const PORT = process.env.PORT || 5000;
         app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
